@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>청춘대길 재고현황 · 표 보기</title>
+<style>
+/* 레이아웃: 매미 재고관리 화면처럼 — 파란 띠, 조건 고르는 줄, 한 줄에 재고 한 건인 촘촘한 표. 표는 가로로 밀어서 본다. */
+:root{
+  color-scheme:light;
+  --nav:#1b8fd2; --nav-ink:#ffffff; --bg:#ffffff; --ink:#222222; --muted:#666666; --line:#cfd9df;
+  --head:#e2f5fb; --head-ink:#1a6fb5; --zebra:#f7fafc; --hover:#fff8d9;
+  --go:#f0532d; --sum:#e8441f; --own:#fff3c4; --own-ink:#5a4300; --ven:#e3eefc; --ven-ink:#1d4f91;
+  --warn:#d92d20; --warn-ink:#ffffff;
+  --font:"Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",Dotum,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:13px;line-height:1.4}
+a{color:inherit}
+.alert{background:var(--warn);color:var(--warn-ink);font-weight:700;font-size:16px;text-align:center;padding:10px 10px;letter-spacing:-.02em;word-break:keep-all;text-wrap:balance}
+.alert span{display:inline-block;background:var(--warn-ink);color:var(--warn);border-radius:4px;padding:0 7px;margin-right:8px;font-size:14px}
+.nav{background:var(--nav);color:var(--nav-ink);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;flex-wrap:wrap}
+.nav b{font-size:16px}
+.nav a{font-size:13px;font-weight:700;text-decoration:none;border:1px solid var(--nav-ink);border-radius:4px;padding:3px 10px;white-space:nowrap}
+.titlebar{display:flex;align-items:baseline;gap:8px 14px;flex-wrap:wrap;padding:10px 12px 6px}
+.titlebar h1{margin:0;font-size:18px;border-left:5px solid var(--nav);padding-left:7px}
+.sum{color:var(--sum);font-weight:700;font-size:14px;text-decoration:underline;font-variant-numeric:tabular-nums}
+.stamp{color:var(--muted);font-size:12px}
+.stamp.old{color:var(--sum);font-weight:700}
+.filters{margin:0 12px;border:2px solid var(--go);padding:6px;display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.filters select,.filters input{font:inherit;font-size:13px;height:30px;border:1px solid #9aa7b0;background:#fff;color:var(--ink);padding:0 6px;min-width:0}
+.filters select{flex:1 1 104px}
+.filters input{flex:3 1 180px;font-size:16px}
+.filters button{font:inherit;font-weight:700;height:30px;padding:0 14px;border:0;cursor:pointer;white-space:nowrap}
+#go{background:var(--go);color:#fff}
+#reset{background:#555;color:#fff}
+.filters select:focus-visible,.filters input:focus-visible,.filters button:focus-visible,th button:focus-visible,.nav a:focus-visible{outline:3px solid #ffbf00;outline-offset:1px}
+.hint{margin:6px 12px 0;font-size:12px;color:var(--muted)}
+.scroll{margin:8px 12px 30px;overflow-x:auto;border-top:2px solid var(--nav);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;min-width:760px;font-variant-numeric:tabular-nums}
+th,td{border:1px solid var(--line);padding:5px 7px;text-align:center;white-space:nowrap}
+th{background:var(--head);color:var(--head-ink);font-weight:700;position:sticky;top:0;padding:0}
+th button{font:inherit;font-weight:700;color:inherit;background:transparent;border:0;width:100%;padding:6px 7px;cursor:pointer;white-space:nowrap}
+th button::after{content:" ◆";font-size:9px;opacity:.55}
+th[aria-sort="ascending"] button::after{content:" ▲";opacity:1}
+th[aria-sort="descending"] button::after{content:" ▼";opacity:1}
+tbody tr:nth-child(even){background:var(--zebra)}
+tbody tr:hover{background:var(--hover)}
+td.l{text-align:left}
+td.code{font-weight:700}
+td.q{font-weight:700;text-align:right}
+td.pet{color:var(--muted);text-align:left}
+.kind{display:inline-block;border-radius:3px;padding:0 6px;font-size:12px;font-weight:700}
+.kind.own{background:var(--own);color:var(--own-ink)}
+.kind.ven{background:var(--ven);color:var(--ven-ink)}
+.c-SK{color:#c2410c;font-weight:700}.c-KT{color:#1f3fa8;font-weight:700}.c-LG{color:#a8126a;font-weight:700}.c-etc{color:var(--muted)}
+td small{color:var(--muted);font-size:11.5px;margin-left:4px}
+.empty{padding:24px 12px;text-align:center;color:var(--muted)}
+@media (max-width:600px){ body{font-size:12.5px} th,td{padding:5px 5px} th button{padding:6px 5px} table{min-width:600px} .col-no,.col-pet{display:none} .titlebar h1{font-size:17px} }
+.foot{margin:0 12px 40px;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+</style>
+</head>
+<body>
+<div class="alert"><span>안내</span>이 표에 없는 재고는 영업사원에게 문의하세요</div>
+<div class="nav"><b>청춘대길 재고현황</b><a href="./">카드로 보기</a></div>
+<div class="titlebar"><h1>재고관리</h1><span class="sum" id="sum"></span><span class="stamp" id="stamp"></span></div>
+<div class="filters" role="search">
+  <select id="f-own" aria-label="구분"><option value="">--구분--</option><option value="own">우리 보유</option><option value="ven">대리점 재고</option></select>
+  <select id="f-car" aria-label="통신사"><option value="">--통신사--</option><option>SK</option><option>KT</option><option>LG</option></select>
+  <select id="f-dealer" aria-label="입고처"><option value="">--입고처--</option></select>
+  <select id="f-loc" aria-label="보유처"><option value="">--보유처--</option></select>
+  <select id="f-kind" aria-label="단말기 유심"><option value="0">단말기</option><option value="1">유심</option><option value="">단말기+유심</option></select>
+  <select id="f-color" aria-label="색상"><option value="">--색상--</option></select>
+  <input id="q" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="모델·색상·매장 검색  예) S948 블랙" aria-label="검색어">
+  <button id="go" type="button">검색</button>
+  <button id="reset" type="button">초기화</button>
+</div>
+<p class="hint" id="hint"></p>
+<div class="scroll">
+  <table>
+    <thead><tr id="head"></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden>맞는 재고가 없습니다. 표에 없는 재고는 영업사원에게 문의하세요.</div>
+</div>
+<div class="foot" id="foot"></div>
+
+<script src="data-names.js"></script>
+<script src="data-memi.js"></script>
+<script src="v-yuntel.js"></script>
+<script src="v-mainsk.js"></script>
+<script src="v-np.js"></script>
+<script src="v-jun.js"></script>
+<script src="v-gl.js"></script>
+<script src="v-en.js"></script>
+<script src="v-akt.js"></script>
+<script src="v-happy.js"></script>
+<script>
+(function(){
+  var MEMI = window.STOCK_MEMI || {raw:'', asOf:null};
+  var VENDORS = window.STOCK_VENDORS || [];
+  var NAMES = window.MODEL_NAMES || {};
+  var CARFIX = window.DEALER_CARRIER || {};
+  var DLABEL = window.DEALER_LABEL || {};
+  var $ = function(id){ return document.getElementById(id); };
+  var sort = {key:'own', dir:1};
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function norm(s){ return String(s).toLowerCase().replace(/[\s\-_()\/.,+|]/g,''); }
+  var SYN = [['검정','블랙','black'],['화이트','흰색','하양','white'],['그레이','회색','gray','grey'],['실버','은색','silver'],
+    ['블루','파랑','blue'],['그린','초록','green'],['핑크','분홍','pink'],['옐로우','엘로우','노랑','yellow'],
+    ['바이올렛','퍼플','보라','라벤더','라일락'],['울트라','ultra'],['프로맥스','promax'],['플러스','plus'],['본점','본사']];
+  function synOf(text){
+    var t = norm(text), out = '';
+    SYN.forEach(function(g){ if (g.some(function(w){ return t.indexOf(norm(w)) >= 0; })) out += g.map(norm).join(''); });
+    return out;
+  }
+  var CARSYN = {SK:'skskt에스케이', KT:'kt케이티', LG:'lgu유플러스엘지', '?':''};
+
+  /* 기종·용량 알아내기 (카드 화면과 같은 규칙) */
+  var CAPORDER = ['32','64','128','256','512','1T','2T'];
+  function capIn(s){ var m = /(128|256|512|1T|2T)/.exec(String(s||'').toUpperCase()); return m ? m[1] : ''; }
+  function capText(c){ return !c ? '' : (/T$/.test(c) ? c+'B' : c+'GB'); }
+  function family(code, name){
+    code = String(code||'').toUpperCase().trim(); name = String(name||'');
+    var m = /^[AU]?IP(A|D|\d{2})(PM|PR|PL|P|E)?(.*)$/.exec(code);
+    if (m) return {fam:'IP'+m[1]+({PM:'PM',PR:'P',P:'P',PL:'PL',E:'E'}[m[2]]||''), cap:capIn(m[3]), kind:'ip'};
+    m = /아이폰\s*-?\s*(\d{2}\s*(?:에어|AIR)|에어|AIR|DUO|듀오|\d{2})\s*(프로\s*맥스|PRO\s*MAX|맥스|MAX|프로|PRO|플러스|\+|E(?![A-Z]))?/i.exec(name);
+    if (m){
+      var n = /에어|AIR/i.test(m[1]) ? 'A' : /DUO|듀오/i.test(m[1]) ? 'D' : m[1];
+      var v = !m[2] ? '' : /맥스|MAX/i.test(m[2]) ? 'PM' : /프로|PRO/i.test(m[2]) ? 'P' : /플러스|\+/.test(m[2]) ? 'PL' : 'E';
+      return {fam:'IP'+n+v, cap:capIn(code.replace(/^[A-Z]\d{4}/,'')) || capIn(name), kind:'ip'};
+    }
+    m = /^(?:SM-)?([ASFMLGXJ])(\d{3})(.*)$/.exec(code);
+    if (m) return {fam:'SM-'+m[1]+m[2], cap:capIn(m[3]), kind:'sm'};
+    m = /^(AT-M\d{3})/.exec(code);
+    if (m) return {fam:m[1], cap:'', kind:'at'};
+    return {fam: code || name, cap:'', kind:'raw'};
+  }
+  function petOf(f, fallback){
+    if (f.kind === 'ip'){
+      var m = /^IP(A|D|\d{2})(PM|PL|P|E)?$/.exec(f.fam);
+      var base = m[1]==='A' ? '아이폰 에어' : m[1]==='D' ? '아이폰 Duo' : '아이폰'+m[1];
+      return base + ({PM:' 프로맥스', P:' 프로', PL:' 플러스', E:'e'}[m[2]]||'');
+    }
+    if (NAMES[f.fam]) return NAMES[f.fam];
+    return f.kind === 'raw' ? (fallback || '') : '';
+  }
+
+  var DEALERS = {}, byMemi = {};
+  VENDORS.forEach(function(s){ DEALERS[s.id] = {id:s.id, name:s.name, car:s.car||'?', ven:s}; if (s.memi) byMemi[s.memi] = s.id; });
+  function carOf(n){ return CARFIX[n] || (/SK/i.test(n)?'SK':/KT/i.test(n)?'KT':/LG|U\+/i.test(n)?'LG':'?'); }
+  function dealerOfMemi(n){
+    if (byMemi[n]) return byMemi[n];
+    var id = 'm:'+n;
+    if (!DEALERS[id]) DEALERS[id] = {id:id, name:DLABEL[n] || n.replace(/_/g,' '), car:carOf(n), ven:null};
+    return id;
+  }
+  function fmtStamp(iso){
+    if (!iso) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)){ var p = iso.split('-'); return {text:(+p[1])+'/'+(+p[2]), ageH:(Date.now()-new Date(iso+'T00:00:00+09:00').getTime())/36e5 - 12}; }
+    var d = new Date(iso); if (isNaN(d)) return null;
+    var g = {}; new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d).forEach(function(x){ g[x.type] = x.value; });
+    return {text: g.month+'/'+g.day+' '+g.hour+':'+g.minute, ageH:(Date.now()-d.getTime())/36e5};
+  }
+
+  /* 자료 읽기: 우리(매미) 재고는 입고처·모델·색상·보유처별 수량, 대리점 재고는 공지된 수량(소진은 뺌) */
+  var ROWS = [];
+  (function(){
+    var dealer = '', model = '';
+    String(MEMI.raw||'').split('\n').forEach(function(ln){
+      ln = ln.trim(); if (!ln) return;
+      if (ln[0]==='@'){ dealer = ln.slice(1); return; }
+      if (ln[0]==='#'){ model = ln.slice(1); return; }
+      var i = ln.indexOf('>'); if (i < 0) return;
+      var color = ln.slice(0,i);
+      ln.slice(i+1).split(',').forEach(function(x){
+        var j = x.lastIndexOf(':'); if (j < 0) return;
+        ROWS.push({own:true, did:dealerOfMemi(dealer), code:model, vname:'', mem:'', color:color, loc:x.slice(0,j), qty:parseInt(x.slice(j+1),10)||0});
+      });
+    });
+    VENDORS.forEach(function(s){
+      var name = '', mem = '', st = fmtStamp(s.asOf);
+      String(s.raw||'').split('\n').forEach(function(ln){
+        ln = ln.trim(); if (!ln) return;
+        if (ln[0]==='#'){ var p = ln.slice(1).split('|'); name = p[0]||''; mem = p[1]||''; return; }
+        var a = ln.split('|'); if (a.length < 3) return;
+        var qt = a[2].trim(); if (/소진|없음|^0$/.test(qt) || qt === '') return;
+        ROWS.push({own:false, did:s.id, code:a[0].trim(), vname:name, mem:mem, color:a[1].trim(), loc:'', qtyText:qt, qty:/^\d+$/.test(qt)?parseInt(qt,10):-1, use:(a[3]||'').trim(), when:st?st.text:''});
+      });
+    });
+  })();
+  var famBase = {};
+  ROWS.forEach(function(r){
+    r.f = family(r.code, r.vname);
+    r.cap = r.f.cap || ((r.f.kind==='ip'||r.f.kind==='sm') ? capIn(r.mem) : '');
+    if (r.cap){ var cur = famBase[r.f.fam]; if (!cur || CAPORDER.indexOf(r.cap) < CAPORDER.indexOf(cur)) famBase[r.f.fam] = r.cap; }
+  });
+  ROWS.forEach(function(r){
+    var d = DEALERS[r.did];
+    // 코드에 용량이 안 적힌 줄은 그 기종의 기본(가장 작은) 용량으로 본다 — 카드 화면과 같은 규칙
+    r.cap = r.cap || ((r.f.kind==='ip'||r.f.kind==='sm') ? (famBase[r.f.fam]||'') : '');
+    r.pet = petOf(r.f, r.vname) + (r.cap ? ' '+capText(r.cap) : '');
+    r.model = r.code || r.vname;
+    r.dealer = d.name; r.car = d.car;
+    r.usim = /^([CKU]\d{4}|\d{5})$/.test(r.f.fam) || /USIM|유심/i.test(r.f.fam) ? '1' : '0';
+    r.hay = [petOf(r.f, r.vname), capText(r.cap), r.cap, r.vname, r.color, r.loc, d.name, d.car].concat(r.f.kind==='ip' ? r.code.split(/[\s\-_]+/) : [r.code]).map(norm).join(' ') + ' ' + synOf(r.pet+' '+r.vname+' '+r.color+' '+r.loc) + ' ' + CARSYN[d.car];
+  });
+
+  /* 고르는 칸 채우기 */
+  function fill(id, values){
+    var el = $(id), first = el.options[0].outerHTML;
+    el.innerHTML = first + values.map(function(v){ return '<option>'+esc(v)+'</option>'; }).join('');
+  }
+  function uniq(key, pred){ var o = {}; ROWS.forEach(function(r){ if (r[key] && (!pred || pred(r))) o[r[key]] = 1; }); return Object.keys(o).sort(function(a,b){ return a.localeCompare(b,'ko'); }); }
+  fill('f-dealer', uniq('dealer')); fill('f-loc', uniq('loc')); fill('f-color', uniq('color'));
+
+  var COLS = [
+    {key:'no', label:'No', num:true},
+    {key:'own', label:'구분'},
+    {key:'car', label:'통신사'},
+    {key:'model', label:'모델명'},
+    {key:'pet', label:'기종'},
+    {key:'color', label:'색상'},
+    {key:'dealer', label:'입고처'},
+    {key:'loc', label:'보유처'},
+    {key:'qty', label:'수량', num:true}
+  ];
+  function drawHead(){
+    $('head').innerHTML = COLS.map(function(c){
+      var s = sort.key === c.key ? (sort.dir > 0 ? 'ascending' : 'descending') : 'none';
+      return '<th scope="col" class="col-'+c.key+'" aria-sort="'+s+'">'+(c.key==='no' ? '<span style="display:block;padding:6px 7px">No</span>' : '<button type="button" data-k="'+c.key+'">'+c.label+'</button>')+'</th>';
+    }).join('');
+  }
+  function val(id){ return $(id).value; }
+  function pick(){
+    var toks = val('q').split(/\s+/).map(norm).filter(Boolean);
+    var own = val('f-own'), car = val('f-car'), dealer = val('f-dealer'), loc = val('f-loc'), kind = val('f-kind'), color = val('f-color');
+    return ROWS.filter(function(r){
+      if (kind && r.usim !== kind) return false;
+      if (own && (own === 'own') !== r.own) return false;
+      if (car && r.car !== car) return false;
+      if (dealer && r.dealer !== dealer) return false;
+      if (loc && r.loc !== loc) return false;
+      if (color && r.color !== color) return false;
+      for (var i = 0; i < toks.length; i++) if (r.hay.indexOf(toks[i]) < 0) return false;
+      return true;
+    });
+  }
+  function cmp(a, b){
+    var k = sort.key, x, y;
+    if (k === 'qty'){ x = a.qty; y = b.qty; return (x - y) * sort.dir; }
+    if (k === 'own'){ x = a.own ? 0 : 1; y = b.own ? 0 : 1; if (x !== y) return (x - y) * sort.dir; }
+    else { x = String(a[k]||''); y = String(b[k]||''); var c = x.localeCompare(y, 'ko', {numeric:true}); if (c) return c * sort.dir; }
+    return a.model.localeCompare(b.model, 'ko', {numeric:true}) || a.color.localeCompare(b.color, 'ko') || (a.own ? 0 : 1) - (b.own ? 0 : 1) || a.dealer.localeCompare(b.dealer, 'ko') || a.loc.localeCompare(b.loc, 'ko');
+  }
+  function render(){
+    drawHead();
+    var rows = pick().sort(cmp), dev = 0, usim = 0, ven = 0;
+    rows.forEach(function(r){ if (!r.own) ven++; else if (r.usim === '1') usim += r.qty; else dev += r.qty; });
+    $('sum').textContent = '단말기: '+dev+'  유심: '+usim+'  대리점 재고: '+ven+'줄';
+    $('rows').innerHTML = rows.map(function(r, i){
+      return '<tr><td class="col-no">'+(rows.length - i)+'</td>'+
+        '<td><span class="kind '+(r.own?'own':'ven')+'">'+(r.own?'우리':'대리점')+'</span></td>'+
+        '<td class="c-'+(r.car==='?'?'etc':r.car)+'">'+(r.car==='?'?'확인중':r.car)+'</td>'+
+        '<td class="code">'+esc(r.model)+'</td>'+
+        '<td class="pet col-pet">'+esc(r.pet)+'</td>'+
+        '<td>'+esc(r.color)+(r.use?'<small>'+esc(r.use)+'</small>':'')+'</td>'+
+        '<td>'+esc(r.dealer)+'</td>'+
+        '<td>'+(r.own ? esc(r.loc) : '대리점 재고'+(r.when?'<small>'+esc(r.when)+'</small>':''))+'</td>'+
+        '<td class="q">'+(r.own ? r.qty : esc(r.qtyText))+'</td></tr>';
+    }).join('');
+    $('empty').hidden = rows.length > 0;
+    $('hint').textContent = '모두 '+rows.length+'줄 · 제목 칸을 누르면 정렬됩니다 · 표는 옆으로 밀어서 봅니다';
+  }
+
+  var s = fmtStamp(MEMI.asOf);
+  $('stamp').textContent = s ? '우리 재고 '+s.text+' 기준'+(s.ageH > 7 ? ' (갱신 안 됨 — 급한 건은 본사 확인)' : '') : '우리 재고 자료 없음';
+  if (!s || s.ageH > 7) $('stamp').className = 'stamp old';
+  $('foot').innerHTML = '<span>우리 = 매미에 잡힌 우리 보유 재고(보유처별 수량). 대리점 = 대리점이 공지한 재고(공지 시점 값, 주문 전 대리점 확인).</span>'+
+    VENDORS.filter(function(v){ return v.note; }).map(function(v){ return '<span>※ '+esc(v.name)+': '+esc(v.note)+'</span>'; }).join('');
+
+  $('head').addEventListener('click', function(e){
+    var b = e.target.closest('button'); if (!b) return;
+    var k = b.getAttribute('data-k');
+    if (sort.key === k) sort.dir = -sort.dir; else { sort.key = k; sort.dir = k === 'qty' ? -1 : 1; }
+    render();
+  });
+  ['f-own','f-car','f-dealer','f-loc','f-kind','f-color'].forEach(function(id){ $(id).addEventListener('change', render); });
+  $('q').addEventListener('input', render);
+  $('q').addEventListener('keydown', function(e){ if (e.key === 'Enter') this.blur(); });
+  $('go').addEventListener('click', render);
+  $('reset').addEventListener('click', function(){
+    ['f-own','f-car','f-dealer','f-loc','f-color'].forEach(function(id){ $(id).value = ''; });
+    $('f-kind').value = '0'; $('q').value = ''; sort = {key:'own', dir:1}; render();
+  });
+  render();
+})();
+</script>
+</body>
+</html>
