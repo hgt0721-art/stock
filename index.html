@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* 레이아웃: 위에 고정된 검색줄 하나, 아래로 모델 줄이 한 열로 쌓인다. 줄마다 어느 대리점 재고인지 꼬리표가 붙고, 누르면 대리점별로 펼쳐진다. 휴대폰 한 손 조작 기준. */
+  /* 레이아웃: 위에 고정된 검색줄 하나, 아래로 모델 줄이 한 열로 쌓인다. 모델 한 줄을 펼치면 용량 → 대리점 → 색상 순으로 내려가고, 매장별 수량은 한 번 더 눌러 본다. 휴대폰 한 손 조작 기준. */
   --bg:#f3f5f7; --surface:#ffffff; --ink:#14213d; --muted:#5d6878; --line:#d9dfe6;
   --accent:#f2b705; --accent-ink:#2a2000; --warn-bg:#fff1d6; --warn-ink:#7a4b00;
   --sk-bg:#fde6df; --sk-ink:#b5341a; --kt-bg:#e6e8ee; --kt-ink:#2a3142;
@@ -91,18 +91,44 @@ details.item>summary::-webkit-details-marker{display:none}
 .loc b{font-variant-numeric:tabular-nums;margin-left:3px}
 .loc small{color:var(--muted);font-size:11.5px}
 .loc.hq{outline:1px solid var(--line);background:transparent}
-.venbox{background:var(--ven);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:5px}
-.venbox .lab{font-size:12px;font-weight:700;color:var(--ven-ink)}
-.venbox .loc{background:var(--surface)}
-.venbox .out{font-size:12.5px;color:var(--muted)}
-.venbox .src{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 h2{margin:28px 0 4px;font-size:16px;font-weight:700}
 .sub{margin:0 0 10px;font-size:13px;color:var(--muted)}
 .pend{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
 .pend div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .pend span.why{color:var(--muted);font-size:13px}
 .empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:18px 14px;color:var(--muted);font-size:14px}
-@media (max-width:420px){ .row{grid-template-columns:1fr;gap:4px} }
+.caps{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:5px}
+.cap{font-size:12.5px;font-weight:600;border-radius:7px;padding:2px 9px;background:var(--chip);white-space:nowrap}
+.cap b{font-variant-numeric:tabular-nums;margin-left:5px}
+.cap.ven{background:var(--ven);color:var(--ven-ink);font-weight:500}
+.cap.none{background:transparent;outline:1px solid var(--line);color:var(--muted);font-weight:400}
+details.item[open]>summary .tags,details.item[open]>summary .caps{display:none}
+.capsec{padding-top:12px}
+.caphead{display:flex;align-items:baseline;justify-content:space-between;gap:8px;border-left:4px solid var(--accent);background:var(--chip);border-radius:6px;padding:5px 10px}
+.caphead b{font-size:15px}
+.caphead span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.drow{display:grid;grid-template-columns:minmax(118px,30%) 1fr;gap:6px 12px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+.drow:last-child{border-bottom:0}
+.dwho{display:flex;align-items:center;gap:6px;flex-wrap:wrap;min-width:0;font-weight:700}
+.dwho span.dname{overflow-wrap:anywhere}
+.dstock{display:flex;flex-direction:column;gap:7px;min-width:0}
+.line{display:flex;flex-wrap:wrap;gap:5px;align-items:center}
+.lab2{font-size:11.5px;font-weight:700;border-radius:5px;padding:2px 7px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lab2.own{background:var(--accent);color:var(--accent-ink)}
+.lab2.ven{background:var(--ven-ink);color:var(--surface)}
+.cq{font-size:13.5px;border-radius:7px;padding:2px 9px;background:var(--chip);white-space:nowrap}
+.cq b{margin-left:5px;font-variant-numeric:tabular-nums}
+.cq small{margin-left:3px;font-size:11.5px;opacity:.8}
+.cq.ven{background:var(--ven);color:var(--ven-ink)}
+.outs{font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+details.stores>summary{list-style:none;cursor:pointer;display:inline-block;font-size:12.5px;font-weight:600;color:var(--ven-ink);padding:1px 0}
+details.stores>summary::-webkit-details-marker{display:none}
+details.stores>summary::after{content:" ▾"}
+details.stores[open]>summary::after{content:" ▴"}
+details.stores .row{grid-template-columns:minmax(64px,24%) 1fr;padding:4px 0}
+details.stores .color small{display:none}
+.notes{padding-top:8px;display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--muted)}
+@media (max-width:420px){ .row{grid-template-columns:1fr;gap:4px} .drow{grid-template-columns:1fr} details.stores .row{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
@@ -260,9 +286,11 @@ h2{margin:28px 0 4px;font-size:16px;font-weight:700}
     var cap = r.cap || ((r.f.kind==='ip'||r.f.kind==='sm') ? (famBase[r.f.fam]||'') : '');
     var d = DEALERS[r.did];
     r.mk = r.f.fam+'|'+cap;
+    r.capk = cap;
+    r.base = titleOf(r.f, '', r.vname);
     r.title = titleOf(r.f, cap, r.vname);
     r.usim = /^([CKU]\d{4}|\d{5})$/.test(r.f.fam) || /USIM|유심/i.test(r.f.fam) ? '1' : '0';
-    r.hay = norm(r.title+r.code+r.vname+r.color+(r.loc||'')+d.name+d.car) + synOf(r.title+' '+r.vname+' '+r.color+' '+(r.loc||'')) + CARSYN[d.car];
+    r.hay = [r.base, capText(cap), cap, r.vname, r.color, r.loc||'', d.name, d.car].concat(r.f.kind==='ip' ? r.code.split(/[\s\-_]+/) : [r.code]).map(norm).join(' ') + ' ' + synOf(r.title+' '+r.vname+' '+r.color+' '+(r.loc||'')) + ' ' + CARSYN[d.car];
     return r;
   });
 
@@ -307,17 +335,29 @@ h2{margin:28px 0 4px;font-size:16px;font-weight:700}
     order.sort(function(a,b){ return colors[b].total-colors[a].total; });
     return order.map(function(c){ return '<div class="row"><div class="color">'+esc(c)+'<small>우리 '+colors[c].total+'</small></div><div class="locs">'+locChips(colors[c].locs)+'</div></div>'; }).join('');
   }
-  function venBlock(d, rows){
-    if (!rows.length) return '';
-    var s = d.ven, st = fmtStamp(s.asOf);
-    var inS = rows.filter(function(r){ return !r.out; }), outS = rows.filter(function(r){ return r.out; });
-    var cs = {}, ns = {}; rows.forEach(function(r){ if (r.code) cs[r.code] = 1; if (r.vname) ns[r.vname] = 1; });
-    var codes = Object.keys(cs), srcText = Object.keys(ns).concat(codes.slice(0,3)).join(' · ') + (codes.length > 3 ? ' 외' : '');
-    return '<div class="venbox"><div class="lab">'+esc(d.name)+' 대리점 재고'+(st?' · '+esc(st.text)+(/^\d{4}-\d{2}-\d{2}$/.test(s.asOf)?' 공지':' 기준'):'')+'</div>'+
-      (inS.length ? '<div class="locs">'+inS.map(function(r){ return '<span class="loc">'+esc(r.color)+(r.use?' <small>'+esc(r.use)+'</small>':'')+'<b>'+esc(r.qtyText)+'</b></span>'; }).join('')+'</div>' : '')+
-      (outS.length ? '<div class="out">소진: '+esc(outS.map(function(r){ return r.color+(r.use?'('+r.use+')':''); }).join(', '))+'</div>' : '')+
-      (s.note ? '<div class="src">'+esc(s.note)+'</div>' : '')+
-      (srcText ? '<div class="src">'+esc(srcText)+'</div>' : '')+'</div>';
+  function chips(list, cls){
+    return list.map(function(x){ return '<span class="cq'+(cls?' '+cls:'')+'">'+esc(x.c)+(x.u?'<small>'+esc(x.u)+'</small>':'')+'<b>'+esc(x.n)+'</b></span>'; }).join('');
+  }
+  // x = {own:[행], ven:[행], ownTotal}. 우리 보유는 색상별 합계 칩 + 접힌 매장별 수량, 대리점 재고는 색상 칩
+  function stockLines(d, x){
+    var h = '', toks = tokens();
+    if (x.ownTotal){
+      var col = {}, order = [], locs = {};
+      x.own.forEach(function(r){ if (!(r.color in col)){ col[r.color] = 0; order.push(r.color); } col[r.color] += r.qty; locs[r.loc] = 1; });
+      order.sort(function(a,b){ return col[b]-col[a]; });
+      var names = Object.keys(locs), unit = state.kind==='1' ? '장' : '대';
+      var open = names.length <= 2 || toks.some(function(t){ return names.some(function(n){ return norm(n).indexOf(t) >= 0; }); });
+      h += '<div class="line"><span class="lab2 own">우리 '+x.ownTotal+unit+'</span>'+chips(order.map(function(c){ return {c:c, n:col[c]}; }))+'</div>'+
+        '<details class="stores"'+(open?' open':'')+'><summary>매장별 수량 ('+names.length+'곳)</summary>'+ownBlock(x.own)+'</details>';
+    }
+    var inS = x.ven.filter(function(r){ return !r.out; }), outS = x.ven.filter(function(r){ return r.out; });
+    if (inS.length || outS.length){
+      var st = d.ven && d.ven.asOf ? fmtStamp(d.ven.asOf) : null;
+      h += '<div class="line"><span class="lab2 ven">대리점'+(st?' '+esc(st.text):'')+'</span>'+
+        (inS.length ? chips(inS.map(function(r){ return {c:r.color, n:r.qtyText, u:r.use}; }), 'ven') : '<span class="outs">재고 없음</span>')+'</div>'+
+        (outS.length ? '<div class="outs">소진: '+esc(outS.map(function(r){ return r.color+(r.use?'('+r.use+')':''); }).join(', '))+'</div>' : '');
+    }
+    return h || '<span class="outs">재고 없음</span>';
   }
   function byDealerOrder(ids){
     var o = {SK:0, KT:1, LG:2, '?':3};
@@ -327,29 +367,46 @@ h2{margin:28px 0 4px;font-size:16px;font-weight:700}
   function renderModel(rows){
     var G = {}, order = [];
     rows.forEach(function(r){
-      if (!G[r.mk]){ G[r.mk] = {title:r.title, codes:{}, own:0, venIn:0, dealers:{}}; order.push(r.mk); }
-      var g = G[r.mk]; if (r.code) g.codes[r.code] = 1;
-      var d = g.dealers[r.did] || (g.dealers[r.did] = {own:[], ven:[], ownTotal:0});
-      if (r.own){ d.own.push(r); d.ownTotal += r.qty; g.own += r.qty; } else { d.ven.push(r); if (!r.out) g.venIn++; }
+      var fk = r.f.fam;
+      if (!G[fk]){ G[fk] = {title:r.base, codes:{}, own:0, venIn:0, caps:{}, dealers:{}}; order.push(fk); }
+      var g = G[fk]; if (r.code) g.codes[r.code] = 1;
+      var c = g.caps[r.capk] || (g.caps[r.capk] = {own:0, venIn:0, dealers:{}});
+      var d = c.dealers[r.did] || (c.dealers[r.did] = {own:[], ven:[], ownTotal:0});
+      var t = g.dealers[r.did] || (g.dealers[r.did] = {own:0, venIn:false});
+      if (r.own){ d.own.push(r); d.ownTotal += r.qty; c.own += r.qty; g.own += r.qty; t.own += r.qty; }
+      else { d.ven.push(r); if (!r.out){ c.venIn++; g.venIn++; t.venIn = true; } }
     });
     order.sort(function(a,b){ return G[b].own-G[a].own || G[b].venIn-G[a].venIn || G[a].title.localeCompare(G[b].title,'ko'); });
-    var open = order.length <= 3;
+    var open = order.length <= 3, unit = state.kind==='1' ? '장' : '대';
     return {n:order.length, html: order.map(function(k){
-      var g = G[k], ids = byDealerOrder(Object.keys(g.dealers));
-      var tags = ids.map(function(id){
-        var d = DEALERS[id], x = g.dealers[id], venIn = x.ven.some(function(r){ return !r.out; });
-        if (!x.ownTotal && !venIn) return '';
-        return '<span class="tag'+(x.ownTotal?'':' ven')+'">'+carChip(d.car)+esc(d.name)+(x.ownTotal?' <b>'+x.ownTotal+'</b>':'')+(venIn?' · 대리점':'')+'</span>';
+      var g = G[k];
+      var caps = Object.keys(g.caps).sort(function(a,b){ return CAPORDER.indexOf(a)-CAPORDER.indexOf(b); });
+      var capPills = caps.length > 1 || caps[0] ? caps.map(function(c){
+        var x = g.caps[c];
+        return '<span class="cap'+(x.own?'':x.venIn?' ven':' none')+'">'+(capText(c)||'용량 표기 없음')+(x.own?'<b>'+x.own+'</b>':x.venIn?' · 대리점':' · 소진')+'</span>';
+      }).join('') : '';
+      var tags = byDealerOrder(Object.keys(g.dealers)).map(function(id){
+        var d = DEALERS[id], t = g.dealers[id];
+        if (!t.own && !t.venIn) return '';
+        return '<span class="tag'+(t.own?'':' ven')+'">'+carChip(d.car)+esc(d.name)+(t.own?' <b>'+t.own+'</b>':'')+(t.venIn?' · 대리점':'')+'</span>';
       }).join('');
-      var body = ids.map(function(id){
-        var d = DEALERS[id], x = g.dealers[id];
-        return '<div class="dealer"><div class="dhead">'+carChip(d.car)+'<span class="dname">'+esc(d.name)+'</span><span class="dmeta">'+(x.ownTotal?'우리 보유 '+x.ownTotal:'우리 보유 없음')+'</span></div>'+
-          ownBlock(x.own)+venBlock(d, x.ven)+'</div>';
+      var notes = {};
+      var body = caps.map(function(c){
+        var x = g.caps[c], ids = byDealerOrder(Object.keys(x.dealers)).sort(function(a,b){ return (x.dealers[b].ownTotal?1:0)-(x.dealers[a].ownTotal?1:0); });
+        var rowsHtml = ids.map(function(id){
+          var d = DEALERS[id];
+          if (d.ven && d.ven.note && x.dealers[id].ven.length) notes[d.name] = d.ven.note;
+          return '<div class="drow"><div class="dwho">'+carChip(d.car)+'<span class="dname">'+esc(d.name)+'</span></div><div class="dstock">'+stockLines(d, x.dealers[id])+'</div></div>';
+        }).join('');
+        var head = (caps.length > 1 || c) ? '<div class="caphead"><b>'+(capText(c)||'용량 표기 없음')+'</b><span>'+(x.own?'우리 '+x.own+unit:'우리 보유 없음')+' · 대리점 '+ids.length+'곳</span></div>' : '';
+        return '<div class="capsec">'+head+rowsHtml+'</div>';
       }).join('');
-      var codes = Object.keys(g.codes).slice(0,4).join(' · ');
-      return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+esc(g.title)+'</span>'+(codes?'<span class="code">'+esc(codes)+'</span>':'')+'</span>'+
+      var noteHtml = Object.keys(notes).map(function(n){ return '<span>※ '+esc(n)+': '+esc(notes[n])+'</span>'; }).join('');
+      var codes = Object.keys(g.codes), codeText = codes.slice(0,4).join(' · ') + (codes.length > 4 ? ' 외' : '');
+      return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+esc(g.title)+'</span>'+(codeText?'<span class="code">'+esc(codeText)+'</span>':'')+'</span>'+
         (g.own?'<span class="qty">'+g.own+'</span>':'<span class="qty none">대리점만</span>')+
-        '<span class="tags">'+(tags||'<span class="tag">재고 없음(소진)</span>')+'</span></summary><div class="body">'+body+'</div></details>';
+        (capPills?'<span class="caps">'+capPills+'</span>':'')+
+        '<span class="tags">'+(tags||'<span class="tag">재고 없음(소진)</span>')+'</span></summary><div class="body">'+body+(noteHtml?'<div class="notes">'+noteHtml+'</div>':'')+'</div></details>';
     }).join('')};
   }
 
@@ -368,12 +425,13 @@ h2{margin:28px 0 4px;font-size:16px;font-weight:700}
       g.mo.sort(function(a,b){ return g.models[b].ownTotal-g.models[a].ownTotal || g.models[a].title.localeCompare(g.models[b].title,'ko'); });
       var body = g.mo.map(function(mk){
         var m = g.models[mk];
-        return '<div class="dealer"><div class="dhead"><span class="dname">'+esc(m.title)+'</span><span class="dmeta">'+(m.ownTotal?'우리 보유 '+m.ownTotal:'우리 보유 없음')+'</span></div>'+ownBlock(m.own)+venBlock(d, m.ven)+'</div>';
+        return '<div class="drow"><div class="dwho"><span class="dname">'+esc(m.title)+'</span></div><div class="dstock">'+stockLines(d, m)+'</div></div>';
       }).join('');
       var st = d.ven && d.ven.asOf ? fmtStamp(d.ven.asOf) : null;
       return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+carChip(d.car)+' '+esc(d.name)+'</span>'+
         '<span class="code" style="font-family:var(--font-body)">모델 '+g.mo.length+'종'+(st?' · 대리점 재고 '+esc(st.text):'')+'</span></span>'+
-        (g.own?'<span class="qty">'+g.own+'</span>':'<span class="qty none">대리점만</span>')+'</summary><div class="body">'+body+'</div></details>';
+        (g.own?'<span class="qty">'+g.own+'</span>':'<span class="qty none">대리점만</span>')+'</summary><div class="body">'+body+
+        (d.ven && d.ven.note ? '<div class="notes"><span>※ '+esc(d.ven.note)+'</span></div>' : '')+'</div></details>';
     }).join('')};
   }
 
