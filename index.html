@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>청춘대길 재고현황</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* 레이아웃: 위에 고정된 검색줄 하나, 아래로 모델 줄이 한 열로 쌓인다. 줄마다 어느 대리점 재고인지 꼬리표가 붙고, 누르면 대리점별로 펼쳐진다. 휴대폰 한 손 조작 기준. */
+  --bg:#f3f5f7; --surface:#ffffff; --ink:#14213d; --muted:#5d6878; --line:#d9dfe6;
+  --accent:#f2b705; --accent-ink:#2a2000; --warn-bg:#fff1d6; --warn-ink:#7a4b00;
+  --sk-bg:#fde6df; --sk-ink:#b5341a; --kt-bg:#e6e8ee; --kt-ink:#2a3142;
+  --lg-bg:#fbe1ef; --lg-ink:#a8126a; --etc-bg:#e8eef0; --etc-ink:#3d5560;
+  --chip:#eef1f4; --ven:#e7f0fb; --ven-ink:#1d4f91;
+  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-code:"IBM Plex Mono","D2Coding",Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f141c; --surface:#18202b; --ink:#e9eef5; --muted:#9aa7b8; --line:#2b3644;
+    --accent:#f2b705; --accent-ink:#2a2000; --warn-bg:#3a2c0b; --warn-ink:#ffd98a;
+    --sk-bg:#4a2018; --sk-ink:#ffb4a1; --kt-bg:#2c3342; --kt-ink:#d5dbea;
+    --lg-bg:#451633; --lg-ink:#ffa9d8; --etc-bg:#22323a; --etc-ink:#b6d0da;
+    --chip:#222c39; --ven:#172b45; --ven-ink:#a9cdfb;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f141c; --surface:#18202b; --ink:#e9eef5; --muted:#9aa7b8; --line:#2b3644;
+  --accent:#f2b705; --accent-ink:#2a2000; --warn-bg:#3a2c0b; --warn-ink:#ffd98a;
+  --sk-bg:#4a2018; --sk-ink:#ffb4a1; --kt-bg:#2c3342; --kt-ink:#d5dbea;
+  --lg-bg:#451633; --lg-ink:#ffa9d8; --etc-bg:#22323a; --etc-ink:#b6d0da;
+  --chip:#222c39; --ven:#172b45; --ven-ink:#a9cdfb;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15px;line-height:1.5}
+.wrap{max-width:760px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+header.top{position:sticky;top:0;z-index:5;background:var(--bg);padding-block:14px 10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--line)}
+.titlerow{display:flex;align-items:baseline;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
+h1{margin:0;font-size:19px;font-weight:700;letter-spacing:-.01em}
+.stamp{font-size:12px;color:var(--muted);background:var(--chip);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.stamp.old{background:var(--warn-bg);color:var(--warn-ink);font-weight:600}
+.search{display:flex;gap:8px}
+#q{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:11px 14px}
+#q::placeholder{color:var(--muted)}
+#q:focus{outline:3px solid var(--accent);outline-offset:1px;border-color:var(--ink)}
+#clear{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:0 14px;cursor:pointer}
+.filters{display:flex;gap:6px 14px;flex-wrap:wrap;align-items:center}
+.seg{display:flex;gap:4px;flex-wrap:wrap}
+.seg button{font:inherit;font-size:13px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink);font-weight:600}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.notice{margin-top:12px;background:var(--warn-bg);color:var(--warn-ink);border-radius:10px;padding:10px 14px;font-size:14px;font-weight:500}
+.count{margin:14px 0 8px;font-size:13px;color:var(--muted)}
+.count b{color:var(--ink);font-variant-numeric:tabular-nums}
+.list{display:flex;flex-direction:column;gap:8px}
+details.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+details.item>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:start;gap:6px 10px;padding:11px 14px}
+details.item>summary::-webkit-details-marker{display:none}
+.name{min-width:0;display:flex;flex-direction:column}
+.ttl{font-weight:700;font-size:15.5px;overflow-wrap:anywhere}
+.code{font-family:var(--font-code);font-weight:500;font-size:12.5px;color:var(--muted);overflow-wrap:anywhere}
+.qty{font-variant-numeric:tabular-nums;font-weight:700;background:var(--accent);color:var(--accent-ink);border-radius:8px;padding:2px 9px;min-width:38px;text-align:center;white-space:nowrap}
+.qty.none{background:transparent;color:var(--muted);outline:1px solid var(--line);font-weight:500;font-size:12.5px}
+.tags{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:5px}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;border-radius:7px;padding:2px 8px 2px 3px;background:var(--chip);white-space:nowrap}
+.tag b{font-variant-numeric:tabular-nums}
+.tag.ven{background:var(--ven);color:var(--ven-ink)}
+.car{font-size:11px;font-weight:700;border-radius:5px;padding:1px 6px;white-space:nowrap}
+.car.sk{background:var(--sk-bg);color:var(--sk-ink)}
+.car.kt{background:var(--kt-bg);color:var(--kt-ink)}
+.car.lg{background:var(--lg-bg);color:var(--lg-ink)}
+.car.etc{background:var(--etc-bg);color:var(--etc-ink)}
+.body{border-top:1px solid var(--line);padding:2px 14px 12px;display:flex;flex-direction:column}
+.dealer{padding:10px 0 4px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.dealer:last-child{border-bottom:0}
+.dhead{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dname{font-weight:700}
+.dmeta{font-size:12.5px;color:var(--muted)}
+.row{display:grid;grid-template-columns:minmax(84px,28%) 1fr;gap:10px;padding:5px 0;align-items:start}
+.color{font-weight:600;overflow-wrap:anywhere}
+.color small{display:block;font-weight:400;color:var(--muted);font-variant-numeric:tabular-nums}
+.locs{display:flex;flex-wrap:wrap;gap:5px}
+.loc{font-size:13px;background:var(--chip);border-radius:7px;padding:2px 8px;overflow-wrap:anywhere}
+.loc b{font-variant-numeric:tabular-nums;margin-left:3px}
+.loc small{color:var(--muted);font-size:11.5px}
+.loc.hq{outline:1px solid var(--line);background:transparent}
+.venbox{background:var(--ven);border-radius:9px;padding:8px 10px;display:flex;flex-direction:column;gap:5px}
+.venbox .lab{font-size:12px;font-weight:700;color:var(--ven-ink)}
+.venbox .loc{background:var(--surface)}
+.venbox .out{font-size:12.5px;color:var(--muted)}
+.venbox .src{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+h2{margin:28px 0 4px;font-size:16px;font-weight:700}
+.sub{margin:0 0 10px;font-size:13px;color:var(--muted)}
+.pend{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.pend div{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pend span.why{color:var(--muted);font-size:13px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:18px 14px;color:var(--muted);font-size:14px}
+@media (max-width:420px){ .row{grid-template-columns:1fr;gap:4px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="titlerow">
+      <h1>청춘대길 재고현황</h1>
+      <div id="asof"></div>
+    </div>
+    <div class="search">
+      <input id="q" type="text" inputmode="search" enterkeyhint="search" autocomplete="off" placeholder="모델·색상·대리점·매장  예) S26 울트라 블랙 / 신도 A175 / 한티" aria-label="재고 검색">
+      <button id="clear" type="button">지우기</button>
+    </div>
+    <div class="filters">
+      <div class="seg" id="f-view" role="group" aria-label="보기 방식">
+        <button type="button" data-v="model" aria-pressed="true">모델별</button>
+        <button type="button" data-v="dealer" aria-pressed="false">대리점별</button>
+        <button type="button" data-v="loc" aria-pressed="false">매장별</button>
+      </div>
+      <div class="seg" id="f-kind" role="group" aria-label="구분">
+        <button type="button" data-v="0" aria-pressed="true">단말기</button>
+        <button type="button" data-v="1" aria-pressed="false">유심</button>
+      </div>
+      <div class="seg" id="f-car" role="group" aria-label="통신사">
+        <button type="button" data-v="" aria-pressed="true">전체</button>
+        <button type="button" data-v="SK" aria-pressed="false">SK</button>
+        <button type="button" data-v="KT" aria-pressed="false">KT</button>
+        <button type="button" data-v="LG" aria-pressed="false">LG</button>
+      </div>
+    </div>
+  </header>
+
+  <div id="notice"></div>
+  <p class="count" id="count"></p>
+  <div class="list" id="list"></div>
+
+  <div id="pending"></div>
+</div>
+
+<script src="data-names.js"></script>
+<script src="data-memi.js"></script>
+<script src="v-yuntel.js"></script>
+<script src="v-mainsk.js"></script>
+<script src="v-np.js"></script>
+<script src="v-jun.js"></script>
+<script src="v-gl.js"></script>
+<script src="v-en.js"></script>
+<script src="v-akt.js"></script>
+<script src="v-happy.js"></script>
+<script>
+(function(){
+  var MEMI = window.STOCK_MEMI || {raw:'', asOf:null};
+  var VENDORS = window.STOCK_VENDORS || [];
+  var NAMES = window.MODEL_NAMES || {};
+  var CARFIX = window.DEALER_CARRIER || {};
+  var DLABEL = window.DEALER_LABEL || {};
+  var state = {q:'', view:'model', kind:'0', car:''};
+  var $ = function(id){ return document.getElementById(id); };
+
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function norm(s){ return String(s).toLowerCase().replace(/[\s\-_()\/.,+|]/g,''); }
+
+  var SYN = [['검정','블랙','black'],['화이트','흰색','하양','white'],['그레이','회색','gray','grey'],['실버','은색','silver'],
+    ['블루','파랑','blue'],['그린','초록','green'],['핑크','분홍','pink'],['옐로우','엘로우','노랑','yellow'],
+    ['바이올렛','퍼플','보라','라벤더','라일락'],['울트라','ultra'],['프로맥스','promax'],['플러스','plus'],['본점','본사']];
+  function synOf(text){
+    var t = norm(text), out = '';
+    SYN.forEach(function(g){ if (g.some(function(w){ return t.indexOf(norm(w)) >= 0; })) out += g.map(norm).join(''); });
+    return out;
+  }
+  var CARSYN = {SK:'skskt에스케이', KT:'kt케이티', LG:'lgu유플러스엘지', '?':''};
+
+  /* ---------- 모델 묶기: 매미 코드와 대리점 코드가 달라도 같은 기종·용량이면 한 줄로 ---------- */
+  var CAPORDER = ['32','64','128','256','512','1T','2T'];
+  function capIn(s){ var m = /(128|256|512|1T|2T)/.exec(String(s||'').toUpperCase()); return m ? m[1] : ''; }
+  function capText(c){ return !c ? '' : (/T$/.test(c) ? c+'B' : c+'GB'); }
+  function family(code, name){
+    code = String(code||'').toUpperCase().trim(); name = String(name||'');
+    var m = /^[AU]?IP(A|D|\d{2})(PM|PR|PL|P|E)?(.*)$/.exec(code);
+    if (m) return {fam:'IP'+m[1]+({PM:'PM',PR:'P',P:'P',PL:'PL',E:'E'}[m[2]]||''), cap:capIn(m[3]), kind:'ip'};
+    m = /아이폰\s*-?\s*(\d{2}\s*(?:에어|AIR)|에어|AIR|DUO|듀오|\d{2})\s*(프로\s*맥스|PRO\s*MAX|맥스|MAX|프로|PRO|플러스|\+|E(?![A-Z]))?/i.exec(name);
+    if (m){
+      var n = /에어|AIR/i.test(m[1]) ? 'A' : /DUO|듀오/i.test(m[1]) ? 'D' : m[1];
+      var v = !m[2] ? '' : /맥스|MAX/i.test(m[2]) ? 'PM' : /프로|PRO/i.test(m[2]) ? 'P' : /플러스|\+/.test(m[2]) ? 'PL' : 'E';
+      return {fam:'IP'+n+v, cap:capIn(code.replace(/^[A-Z]\d{4}/,'')) || capIn(name), kind:'ip'};
+    }
+    m = /^(?:SM-)?([ASFMLGXJ])(\d{3})(.*)$/.exec(code);
+    if (m) return {fam:'SM-'+m[1]+m[2], cap:capIn(m[3]), kind:'sm'};
+    m = /^(AT-M\d{3})/.exec(code);
+    if (m) return {fam:m[1], cap:'', kind:'at'};
+    return {fam: code || name, cap:'', kind:'raw'};
+  }
+  function titleOf(f, cap, fallback){
+    if (f.kind === 'ip'){
+      var m = /^IP(A|D|\d{2})(PM|PL|P|E)?$/.exec(f.fam);
+      var base = m[1]==='A' ? '아이폰 에어' : m[1]==='D' ? '아이폰 Duo' : '아이폰'+m[1];
+      return base + ({PM:' 프로맥스', P:' 프로', PL:' 플러스', E:'e'}[m[2]]||'') + (cap?' '+capText(cap):'');
+    }
+    var nm = NAMES[f.fam];
+    if (nm) return nm + (cap?' '+capText(cap):'');
+    if (f.kind === 'raw') return fallback || f.fam;
+    return f.fam + (cap?' '+capText(cap):'');
+  }
+
+  /* ---------- 대리점 ---------- */
+  var DEALERS = {}, byMemi = {};
+  VENDORS.forEach(function(s){ DEALERS[s.id] = {id:s.id, name:s.name, car:s.car||'?', ven:s}; if (s.memi) byMemi[s.memi] = s.id; });
+  function carOf(n){ return CARFIX[n] || (/SK/i.test(n)?'SK':/KT/i.test(n)?'KT':/LG|U\+/i.test(n)?'LG':'?'); }
+  function dealerOfMemi(n){
+    if (byMemi[n]) return byMemi[n];
+    var id = 'm:'+n;
+    if (!DEALERS[id]) DEALERS[id] = {id:id, name:DLABEL[n] || n.replace(/_/g,' '), car:carOf(n), ven:null};
+    return id;
+  }
+  function carClass(c){ return c==='SK'?'sk':c==='KT'?'kt':c==='LG'?'lg':'etc'; }
+  function carChip(c){ return '<span class="car '+carClass(c)+'">'+(c==='?'?'확인중':esc(c))+'</span>'; }
+
+  /* ---------- 자료 읽기 ---------- */
+  var RAW = [];
+  (function(){
+    var dealer = '', model = '';
+    String(MEMI.raw||'').split('\n').forEach(function(ln){
+      ln = ln.trim(); if (!ln) return;
+      if (ln[0]==='@'){ dealer = ln.slice(1); return; }
+      if (ln[0]==='#'){ model = ln.slice(1); return; }
+      var i = ln.indexOf('>'); if (i < 0) return;
+      var color = ln.slice(0,i);
+      ln.slice(i+1).split(',').forEach(function(x){
+        var j = x.lastIndexOf(':'); if (j < 0) return;
+        RAW.push({own:true, did:dealerOfMemi(dealer), code:model, vname:'', mem:'', color:color, loc:x.slice(0,j), qty:parseInt(x.slice(j+1),10)||0});
+      });
+    });
+    VENDORS.forEach(function(s){
+      var name = '', mem = '';
+      String(s.raw||'').split('\n').forEach(function(ln){
+        ln = ln.trim(); if (!ln) return;
+        if (ln[0]==='#'){ var p = ln.slice(1).split('|'); name = p[0]||''; mem = p[1]||''; return; }
+        var a = ln.split('|'); if (a.length < 3) return;
+        var qt = a[2].trim(), out = /소진|없음|^0$/.test(qt) || qt==='';
+        RAW.push({own:false, did:s.id, code:a[0].trim(), vname:name, mem:mem, color:a[1].trim(), qtyText:qt, out:out, use:(a[3]||'').trim()});
+      });
+    });
+  })();
+
+  var famBase = {};
+  RAW.forEach(function(r){
+    r.f = family(r.code, r.vname);
+    r.cap = r.f.cap || ((r.f.kind==='ip'||r.f.kind==='sm') ? capIn(r.mem) : '');
+    if (r.cap){
+      var cur = famBase[r.f.fam];
+      if (!cur || CAPORDER.indexOf(r.cap) < CAPORDER.indexOf(cur)) famBase[r.f.fam] = r.cap;
+    }
+  });
+  var ROWS = RAW.map(function(r){
+    var cap = r.cap || ((r.f.kind==='ip'||r.f.kind==='sm') ? (famBase[r.f.fam]||'') : '');
+    var d = DEALERS[r.did];
+    r.mk = r.f.fam+'|'+cap;
+    r.title = titleOf(r.f, cap, r.vname);
+    r.usim = /^([CKU]\d{4}|\d{5})$/.test(r.f.fam) || /USIM|유심/i.test(r.f.fam) ? '1' : '0';
+    r.hay = norm(r.title+r.code+r.vname+r.color+(r.loc||'')+d.name+d.car) + synOf(r.title+' '+r.vname+' '+r.color+' '+(r.loc||'')) + CARSYN[d.car];
+    return r;
+  });
+
+  function tokens(){ return state.q.split(/\s+/).map(norm).filter(Boolean); }
+  function hit(hay, toks){ for (var i=0;i<toks.length;i++){ if (hay.indexOf(toks[i]) < 0) return false; } return true; }
+  function filtered(){
+    var toks = tokens();
+    return ROWS.filter(function(r){
+      if (r.usim !== state.kind) return false;
+      if (state.car && DEALERS[r.did].car !== state.car) return false;
+      return hit(r.hay, toks);
+    });
+  }
+
+  function fmtStamp(iso){
+    if (!iso) return null;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(iso)){ var p = iso.split('-'); return {text:(+p[1])+'/'+(+p[2]), ageH:(Date.now()-new Date(iso+'T00:00:00+09:00').getTime())/36e5 - 12}; }
+    var d = new Date(iso); if (isNaN(d)) return null;
+    var g = {}; new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit',hour12:false}).formatToParts(d).forEach(function(x){ g[x.type] = x.value; });
+    return {text: g.month+'/'+g.day+' '+g.hour+':'+g.minute, ageH:(Date.now()-d.getTime())/36e5};
+  }
+  function renderStamps(){
+    var s = fmtStamp(MEMI.asOf);
+    $('asof').innerHTML = s ? '<span class="stamp'+(s.ageH>7?' old':'')+'">우리 재고 '+esc(s.text)+' 기준</span>' : '<span class="stamp old">우리 재고 자료 없음</span>';
+    $('notice').innerHTML = (s && s.ageH > 7) ? '<div class="notice">우리 재고가 '+esc(s.text)+' 이후로 갱신되지 않았습니다. 급한 건은 본사에 확인하세요.</div>' : '';
+    var pend = VENDORS.filter(function(v){ return v.pending; });
+    $('pending').innerHTML = pend.length ? '<h2>아직 연결되지 않은 대리점</h2><div class="pend">'+pend.map(function(v){
+      return '<div>'+carChip(v.car)+'<b>'+esc(v.name)+'</b><span class="why">'+esc(v.pending)+'</span></div>'; }).join('')+'</div>' : '';
+  }
+
+  function locChips(list){
+    return list.slice().sort(function(a,b){ return b.qty-a.qty || a.loc.localeCompare(b.loc,'ko'); })
+      .map(function(l){ return '<span class="loc'+(l.loc==='본점'?' hq':'')+'">'+esc(l.loc)+'<b>'+l.qty+'</b></span>'; }).join('');
+  }
+  function ownBlock(rows){
+    var colors = {}, order = [];
+    rows.forEach(function(r){
+      if (!colors[r.color]){ colors[r.color] = {total:0, locs:[], at:{}}; order.push(r.color); }
+      var c = colors[r.color]; c.total += r.qty;
+      if (c.at[r.loc]) c.at[r.loc].qty += r.qty; else c.locs.push(c.at[r.loc] = {loc:r.loc, qty:r.qty});
+    });
+    order.sort(function(a,b){ return colors[b].total-colors[a].total; });
+    return order.map(function(c){ return '<div class="row"><div class="color">'+esc(c)+'<small>우리 '+colors[c].total+'</small></div><div class="locs">'+locChips(colors[c].locs)+'</div></div>'; }).join('');
+  }
+  function venBlock(d, rows){
+    if (!rows.length) return '';
+    var s = d.ven, st = fmtStamp(s.asOf);
+    var inS = rows.filter(function(r){ return !r.out; }), outS = rows.filter(function(r){ return r.out; });
+    var cs = {}, ns = {}; rows.forEach(function(r){ if (r.code) cs[r.code] = 1; if (r.vname) ns[r.vname] = 1; });
+    var codes = Object.keys(cs), srcText = Object.keys(ns).concat(codes.slice(0,3)).join(' · ') + (codes.length > 3 ? ' 외' : '');
+    return '<div class="venbox"><div class="lab">'+esc(d.name)+' 대리점 재고'+(st?' · '+esc(st.text)+(/^\d{4}-\d{2}-\d{2}$/.test(s.asOf)?' 공지':' 기준'):'')+'</div>'+
+      (inS.length ? '<div class="locs">'+inS.map(function(r){ return '<span class="loc">'+esc(r.color)+(r.use?' <small>'+esc(r.use)+'</small>':'')+'<b>'+esc(r.qtyText)+'</b></span>'; }).join('')+'</div>' : '')+
+      (outS.length ? '<div class="out">소진: '+esc(outS.map(function(r){ return r.color+(r.use?'('+r.use+')':''); }).join(', '))+'</div>' : '')+
+      (s.note ? '<div class="src">'+esc(s.note)+'</div>' : '')+
+      (srcText ? '<div class="src">'+esc(srcText)+'</div>' : '')+'</div>';
+  }
+  function byDealerOrder(ids){
+    var o = {SK:0, KT:1, LG:2, '?':3};
+    return ids.sort(function(a,b){ return o[DEALERS[a].car]-o[DEALERS[b].car] || DEALERS[a].name.localeCompare(DEALERS[b].name,'ko'); });
+  }
+
+  function renderModel(rows){
+    var G = {}, order = [];
+    rows.forEach(function(r){
+      if (!G[r.mk]){ G[r.mk] = {title:r.title, codes:{}, own:0, venIn:0, dealers:{}}; order.push(r.mk); }
+      var g = G[r.mk]; if (r.code) g.codes[r.code] = 1;
+      var d = g.dealers[r.did] || (g.dealers[r.did] = {own:[], ven:[], ownTotal:0});
+      if (r.own){ d.own.push(r); d.ownTotal += r.qty; g.own += r.qty; } else { d.ven.push(r); if (!r.out) g.venIn++; }
+    });
+    order.sort(function(a,b){ return G[b].own-G[a].own || G[b].venIn-G[a].venIn || G[a].title.localeCompare(G[b].title,'ko'); });
+    var open = order.length <= 3;
+    return {n:order.length, html: order.map(function(k){
+      var g = G[k], ids = byDealerOrder(Object.keys(g.dealers));
+      var tags = ids.map(function(id){
+        var d = DEALERS[id], x = g.dealers[id], venIn = x.ven.some(function(r){ return !r.out; });
+        if (!x.ownTotal && !venIn) return '';
+        return '<span class="tag'+(x.ownTotal?'':' ven')+'">'+carChip(d.car)+esc(d.name)+(x.ownTotal?' <b>'+x.ownTotal+'</b>':'')+(venIn?' · 대리점':'')+'</span>';
+      }).join('');
+      var body = ids.map(function(id){
+        var d = DEALERS[id], x = g.dealers[id];
+        return '<div class="dealer"><div class="dhead">'+carChip(d.car)+'<span class="dname">'+esc(d.name)+'</span><span class="dmeta">'+(x.ownTotal?'우리 보유 '+x.ownTotal:'우리 보유 없음')+'</span></div>'+
+          ownBlock(x.own)+venBlock(d, x.ven)+'</div>';
+      }).join('');
+      var codes = Object.keys(g.codes).slice(0,4).join(' · ');
+      return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+esc(g.title)+'</span>'+(codes?'<span class="code">'+esc(codes)+'</span>':'')+'</span>'+
+        (g.own?'<span class="qty">'+g.own+'</span>':'<span class="qty none">대리점만</span>')+
+        '<span class="tags">'+(tags||'<span class="tag">재고 없음(소진)</span>')+'</span></summary><div class="body">'+body+'</div></details>';
+    }).join('')};
+  }
+
+  function renderDealer(rows){
+    var G = {}, order = [];
+    rows.forEach(function(r){
+      if (!G[r.did]){ G[r.did] = {own:0, models:{}, mo:[]}; order.push(r.did); }
+      var g = G[r.did], m = g.models[r.mk];
+      if (!m){ m = g.models[r.mk] = {title:r.title, own:[], ven:[], ownTotal:0}; g.mo.push(r.mk); }
+      if (r.own){ m.own.push(r); m.ownTotal += r.qty; g.own += r.qty; } else m.ven.push(r);
+    });
+    byDealerOrder(order);
+    var open = order.length <= 2;
+    return {n:order.length, html: order.map(function(id){
+      var d = DEALERS[id], g = G[id];
+      g.mo.sort(function(a,b){ return g.models[b].ownTotal-g.models[a].ownTotal || g.models[a].title.localeCompare(g.models[b].title,'ko'); });
+      var body = g.mo.map(function(mk){
+        var m = g.models[mk];
+        return '<div class="dealer"><div class="dhead"><span class="dname">'+esc(m.title)+'</span><span class="dmeta">'+(m.ownTotal?'우리 보유 '+m.ownTotal:'우리 보유 없음')+'</span></div>'+ownBlock(m.own)+venBlock(d, m.ven)+'</div>';
+      }).join('');
+      var st = d.ven && d.ven.asOf ? fmtStamp(d.ven.asOf) : null;
+      return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+carChip(d.car)+' '+esc(d.name)+'</span>'+
+        '<span class="code" style="font-family:var(--font-body)">모델 '+g.mo.length+'종'+(st?' · 대리점 재고 '+esc(st.text):'')+'</span></span>'+
+        (g.own?'<span class="qty">'+g.own+'</span>':'<span class="qty none">대리점만</span>')+'</summary><div class="body">'+body+'</div></details>';
+    }).join('')};
+  }
+
+  function renderLoc(rows){
+    var G = {}, order = [];
+    rows.forEach(function(r){ if (!r.own) return; if (!G[r.loc]){ G[r.loc] = {total:0, items:[]}; order.push(r.loc); } G[r.loc].total += r.qty; G[r.loc].items.push(r); });
+    order.sort(function(a,b){ return G[b].total-G[a].total || a.localeCompare(b,'ko'); });
+    var open = order.length <= 2;
+    return {n:order.length, html: order.map(function(loc){
+      var g = G[loc];
+      var body = g.items.sort(function(a,b){ return a.title.localeCompare(b.title,'ko') || a.color.localeCompare(b.color,'ko'); }).map(function(r){
+        var d = DEALERS[r.did];
+        return '<div class="row"><div class="color">'+esc(r.title)+'<small>'+esc(r.code)+'</small></div><div class="locs"><span class="tag">'+carChip(d.car)+esc(d.name)+'</span><span class="loc">'+esc(r.color)+'<b>'+r.qty+'</b></span></div></div>';
+      }).join('');
+      return '<details class="item"'+(open?' open':'')+'><summary><span class="name"><span class="ttl">'+esc(loc)+'</span></span><span class="qty">'+g.total+'</span></summary><div class="body">'+body+'</div></details>';
+    }).join('')};
+  }
+
+  function render(){
+    var rows = filtered(), own = rows.reduce(function(a,r){ return a+(r.own?r.qty:0); }, 0);
+    var out = state.view==='loc' ? renderLoc(rows) : state.view==='dealer' ? renderDealer(rows) : renderModel(rows);
+    var unit = state.kind==='1' ? '장' : '대';
+    $('count').innerHTML = out.n ? ((state.view==='loc'?'매장 <b>'+out.n+'</b>곳':state.view==='dealer'?'대리점 <b>'+out.n+'</b>곳':'모델 <b>'+out.n+'</b>종')+' · 우리 보유 <b>'+own+'</b>'+unit+' · 줄을 누르면 펼쳐집니다') : '';
+    $('list').innerHTML = out.html || '<div class="empty">맞는 재고가 없습니다. 모델명을 짧게(예: A175, S948) 넣거나 통신사 선택을 전체로 바꿔 보세요.</div>';
+  }
+
+  function bindSeg(id, key){
+    $(id).addEventListener('click', function(e){
+      var b = e.target.closest('button'); if (!b) return;
+      state[key] = b.getAttribute('data-v');
+      Array.prototype.forEach.call($(id).querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+      render();
+    });
+  }
+  bindSeg('f-view','view'); bindSeg('f-kind','kind'); bindSeg('f-car','car');
+  $('q').addEventListener('input', function(){ state.q = this.value; render(); });
+  $('clear').addEventListener('click', function(){ $('q').value = ''; state.q = ''; render(); $('q').focus(); });
+
+  renderStamps(); render();
+})();
+</script>
+</body>
+</html>
