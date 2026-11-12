@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"jun",name:"준플러스",car:"KT",via:"구글 시트(KT 플래닛스퀘어 재고표)",asOf:"2026-11-12T13:37:00+09:00",note:"DP는 전시폰. MNP전용 표시는 MNP 유형만 배정. 아17일반512(MNP전용)는 극소량이라 문의",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"jun",name:"준플러스",car:"KT",via:"구글 시트(KT 플래닛스퀘어 재고표)",asOf:"2026-11-12T16:07:00+09:00",note:"DP는 전시폰. MNP전용 표시는 MNP 유형만 배정. 아17일반512(MNP전용)는 극소량이라 문의",raw:`
 #DP-A급_S25플러스|
 DP-A_SM-S936|네이비|1
 #DP-A급_S25울트라|
@@ -34,7 +34,7 @@ SM-L715|그레이|5
 SM-L715|실버|4
 #아17프로256|256
 AIP17P-256|블루|49
-AIP17P-256|실버|47
+AIP17P-256|실버|46
 AIP17P-256|오렌지|74
 #아17프로512|512
 AIP17P-512|블루|15
@@ -88,7 +88,7 @@ SM-S741|그라파이트|40
 SM-S741|그린|20
 SM-S741|바이올렛|20
 #S25일반|
-SM-S931|블루|36
+SM-S931|블루|35
 #S26일반|
 SM-S942|블랙|44
 SM-S942|블루|72

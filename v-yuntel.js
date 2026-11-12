@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-12T12:07:05+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-12T13:37:37+09:00",raw:`
 #아이폰15 프로|256
 IP15P_256GBL|파랑|소진
 #아이폰15 프로맥스|256
