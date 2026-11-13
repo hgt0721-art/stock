@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"en",name:"EN",car:"LG",memi:"아이즈비전_LG",via:"재고 사이트",asOf:"2026-11-13T14:56:00+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"en",name:"EN",car:"LG",memi:"아이즈비전_LG",via:"재고 사이트",asOf:"2026-11-13T16:08:00+09:00",raw:`
 #아이폰 15 플러스|128
 |핑크|5
 |블랙|5
