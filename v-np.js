@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-12",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-13",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
 #|256
 AIP17-256-NEW|블루|1|MNP
 AIP17-256-NEW|화이트|2|MNP
