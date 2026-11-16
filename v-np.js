@@ -1,9 +1,9 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-13",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-16",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
 #|256
 AIP17-256-NEW|블루|1|MNP
 AIP17-256-NEW|화이트|2|MNP
 AIP17-256-NEW|화이트|5|기변
-AIP17-256(구)|블랙|5|기변
+AIP17-256(구)|블랙|2|기변
 AIP17-256(구)|블루|1|기변
 AIP17P-256|실버|2|MNP
 AIP17P-256|블루|2|MNP
@@ -15,7 +15,7 @@ AIP18P-256|블루|0|기변
 AIP18P-256|블랙|1|기변
 AIP18P-256|실버|5|기변
 AIP18P-256|버건디|1|기변
-AIP18PM-256|실버|3|기변
+AIP18PM-256|실버|1|기변
 #|512
 AIP17P-512|오렌지|1|MNP
 AIP17P-512|블루|1|MNP
@@ -54,8 +54,8 @@ SM-F776NK|크림|1|기변
 SM-F971NK|크림|5|기변
 SM-F976NK|크림|5|기변
 SM-F976NK|바이올렛|2|기변
-SM-F976NK|그라파이트|2|기변
-SM-A366N|블랙|2|기변
+SM-F976NK|그라파이트|1|기변
+SM-A366N|블랙|1|기변
 SM-A366N|라벤더|5|기변
-SM-A366N|화이트|1|기변
+SM-A366N|화이트|0|기변
 `});
