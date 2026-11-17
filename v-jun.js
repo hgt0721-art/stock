@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"jun",name:"준플러스",car:"KT",via:"구글 시트(KT 플래닛스퀘어 재고표)",asOf:"2026-11-17T11:13:00+09:00",note:"DP는 전시폰. MNP전용 표시는 MNP 유형만 배정. 아17일반512(MNP전용)는 극소량이라 문의",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"jun",name:"준플러스",car:"KT",via:"구글 시트(KT 플래닛스퀘어 재고표)",asOf:"2026-11-17T11:32:00+09:00",note:"DP는 전시폰. MNP전용 표시는 MNP 유형만 배정. 아17일반512(MNP전용)는 극소량이라 문의",raw:`
 #DP-A급_S25플러스|
 DP-A_SM-S936|네이비|1
 #DP-A급_S25울트라|
@@ -10,7 +10,7 @@ DP-B_SM-S938|그레이|2
 DP-B_SM-S938|블랙|2
 DP-B_SM-S938|블루|10
 #DP-C급_S25플러스|
-DP-C_SM-S936|네이비|5
+DP-C_SM-S936|네이비|4
 #DP-A급_폴드7|
 DP-A_SM-F966|블루|2
 #DP-B급_폴드7|
