@@ -1,14 +1,12 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"mainsk",name:"메인SK",car:"SK",memi:"SK-메인",via:"카톡 그림(FM 재고공지방)",asOf:"2026-11-16",note:"수량 대신 여유·소량·극소량으로 공지",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"mainsk",name:"메인SK",car:"SK",memi:"SK-메인",via:"카톡 그림(FM 재고공지방)",asOf:"2026-11-17",note:"수량 대신 여유·소량·극소량으로 공지",raw:`
 #S26|
-SM-S942N|블랙|소량
-SM-S942N|블루|소량
-SM-S942N|화이트|여유
-SM-S942N|바이올렛|극소량
+SM-S942N|화이트|소량
 #S26+|512
 SM-S947N_512G|블루|극소량
+SM-S947N_512G|화이트|극소량
 SM-S947N_512G|바이올렛|극소량
 #S26U|
-SM-S948N|블루|소량
+SM-S948N|블루|극소량
 SM-S948N|화이트|극소량
 SM-S948N|바이올렛|극소량
 #S25|
@@ -52,8 +50,10 @@ SM-F766N|다크블루|소량
 #Z폴드7 (DP폰)|
 SM-F966N|다크블루|소량
 #아이폰18프로|256
+IP18P_256GB|검정|극소량
+IP18P_256GG|회색|극소량
 IP18P_256GBL|파랑|소량
-IP18P_256GC|레드|소량
+IP18P_256GC|레드|극소량
 #아이폰18프로|512
 IP18P_512GB|검정|극소량
 IP18P_512GG|회색|극소량
@@ -72,13 +72,14 @@ IP18PM_512GC|레드|극소량
 #아이폰 듀오|256
 IP_DUO_256GW|화이트|극소량
 #아이폰 듀오|512
+IP_DUO_512GW|화이트|극소량
 IP_DUO_512GN|남색|극소량
 #아이폰17|256
 IP17_256GW|화이트|소량
 #아이폰17프로|256
 IP17P_256GG|회색|극소량
 #아이폰17프로맥스|256
-IP17PM_256GN|남색|소량
+IP17PM_256GN|남색|극소량
 #아이폰17에어|256
 IPA_256GB|검정|소량
 IPA_256GBL|파랑|소량
