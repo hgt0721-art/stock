@@ -1,7 +1,7 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"gl",name:"GL",car:"LG",memi:"글로리_LG",via:"구글 시트",asOf:"2026-11-16",note:"표에 없는 색상은 재고 없음. '여유'는 넉넉하다는 표시",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"gl",name:"GL",car:"LG",memi:"글로리_LG",via:"구글 시트",asOf:"2026-11-17",note:"표에 없는 색상은 재고 없음. '여유'는 넉넉하다는 표시",raw:`
 #S26|256
 S942-256|블랙|여유
-S942-256|블루|2
+S942-256|블루|1
 S942-256|바이올렛|여유
 S942-256|화이트|여유
 #S26+|256
