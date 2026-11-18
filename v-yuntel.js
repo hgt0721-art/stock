@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-17T11:00:03+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-18T10:10:59+09:00",raw:`
 #아이폰15 프로|256
 IP15P_256GBL|파랑|소진
 #아이폰15 프로맥스|256
@@ -63,7 +63,7 @@ IP18P_512GBL|글레이셔|1
 IP18P_512GC|버건디|5
 #아이폰18프로맥스|256
 IP18PM_256GB|블랙|1
-IP18PM_256GG|실버|2
+IP18PM_256GG|실버|1
 IP18PM_256GBL|글레이셔|4
 IP18PM_256GC|버건디|소진
 #아이폰18프로맥스|512
