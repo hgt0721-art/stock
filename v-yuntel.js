@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-20T11:06:48+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-20T14:53:50+09:00",raw:`
 #아이폰15 프로|256
 IP15P_256GBL|파랑|소진
 #아이폰15 프로맥스|256
@@ -97,7 +97,7 @@ SM-S938NS|실버|소진
 SM-S938NT|그레이|2
 #갤럭시 S26|256
 SM-S942N|블랙|소진
-SM-S942NW|화이트|1
+SM-S942NW|화이트|소진
 SM-S942NV|바이올렛|11
 SM-S942NB|블루|13
 #갤럭시 S26|512

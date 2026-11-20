@@ -1,6 +1,6 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"akt",name:"AKT(KG모빌)",car:"LG",memi:"KG모빌리언스_LG",via:"카톡 그림(KG모빌)",asOf:"2026-11-19",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"akt",name:"AKT(KG모빌)",car:"LG",memi:"KG모빌리언스_LG",via:"카톡 그림(KG모빌)",asOf:"2026-11-20",raw:`
 #|
-SM-A165N-UM|그레이|8
+SM-A165N-UM|그레이|2
 SM-A176L|그레이|1
 SM-A176L|블랙|2
 SM-F971N256|크림|1
