@@ -1,11 +1,8 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"en",name:"EN",car:"LG",memi:"아이즈비전_LG",via:"재고 사이트",asOf:"2026-11-19T11:09:00+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"en",name:"EN",car:"LG",memi:"아이즈비전_LG",via:"재고 사이트",asOf:"2026-11-20T11:07:00+09:00",raw:`
 #아이폰 15 플러스|128
 |핑크|5
 |블랙|5
 #|
-SM-A176L|블루|8
-SM-A176L|그레이|6
-SM-A176L|블랙|5
 SM-S948N_256G|블랙|1
 SM-S948N_256G|코발트 바이올렛|1
 SM-S948N_256G|화이트|1

@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-19T10:43:45+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-20T11:06:48+09:00",raw:`
 #아이폰15 프로|256
 IP15P_256GBL|파랑|소진
 #아이폰15 프로맥스|256
@@ -74,6 +74,8 @@ IP18PM_512GC|버건디|소진
 #아이폰18프로맥스|1T
 IP18PM_1TB|블랙|1
 IP18PM_1TBL|글레이셔|1
+#아이폰 듀오|512
+IP_DUO_512GN|나이트스카이|1
 #갤럭시 A17|128
 SM-A175N|블랙|50
 SM-A175NA|그레이|50
@@ -94,7 +96,7 @@ SM-S938NB|블루|26
 SM-S938NS|실버|소진
 SM-S938NT|그레이|2
 #갤럭시 S26|256
-SM-S942N|블랙|1
+SM-S942N|블랙|소진
 SM-S942NW|화이트|1
 SM-S942NV|바이올렛|11
 SM-S942NB|블루|13
