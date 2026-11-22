@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-21T10:51:44+09:00",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"yuntel",name:"윤텔(렉스턴)",car:"SK",memi:"윤텔_SK(렉스턴)",via:"구글 시트",asOf:"2026-11-22T10:48:00+09:00",raw:`
 #아이폰15 프로|256
 IP15P_256GBL|파랑|소진
 #아이폰16|256
@@ -50,10 +50,10 @@ IPA_512GGL|골드|소진
 #아이폰에어|1T
 IPA_1TBL|블루|1
 #아이폰18프로|256
-IP18P_256GB|블랙|14
+IP18P_256GB|블랙|13
 IP18P_256GG|실버|소진
 IP18P_256GBL|글레이셔|9
-IP18P_256GC|버건디|14
+IP18P_256GC|버건디|13
 #아이폰18프로|512
 IP18P_512GB|블랙|3
 IP18P_512GG|실버|소진
