@@ -1,4 +1,4 @@
-window.STOCK_MEMI={asOf:"2026-11-22T11:08:00+09:00",total:888,raw:`
+window.STOCK_MEMI={asOf:"2026-11-23T11:07:00+09:00",total:888,raw:`
 @KG모빌리언스_LG
 #SM-A165N-UM
 그레이>프로_전농동_우석:1
