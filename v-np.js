@@ -1,9 +1,9 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-20",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"np",name:"NP",car:"KT",memi:"NP(KT)",via:"카톡 그림(지교(뉴피) 업무방)",asOf:"2026-11-24",note:"MNP용·기변용 재고가 따로 있음. 택배는 16시 마감",raw:`
 #|256
 AIP17-256-NEW|블루|1|MNP
-AIP17-256-NEW|화이트|2|MNP
+AIP17-256-NEW|화이트|1|MNP
 AIP17-256-NEW|화이트|5|기변
-AIP17-256(구)|블랙|1|기변
+AIP17-256(구)|블랙|0|기변
 AIP17-256(구)|블루|1|기변
 AIP17P-256|실버|2|MNP
 AIP17P-256|블루|2|MNP
@@ -21,22 +21,23 @@ AIP17P-512|오렌지|1|MNP
 AIP17P-512|블루|1|MNP
 AIP17P-512|실버|1|MNP
 AIP17P-512|실버|4|기변
-AIP18P-512|블루|2|기변
+AIP18P-512|블루|1|기변
 AIP18P-512|블랙|1|기변
 AIP18P-512|실버|0|기변
 AIP18P-512|버건디|1|기변
 #|
 SM-S942NK_NEW|블루|1|MNP
 SM-S942NK_NEW|바이올렛|2|MNP
+SM-S947NK|화이트|0|MNP
 SM-S942NK|블랙|5|기변
-SM-S942NK|바이올렛|1|기변
+SM-S942NK|블루|1|기변
 SM-S948NK|블루|6|MNP
 SM-S948NK|바이올렛|3|MNP
 SM-S948NK|화이트|3|MNP
 SM-S948NK|블랙|3|MNP
 SM-S948NK|블랙|5|기변
-SM-S948NK|블루|1|기변
-SM-A175NK|블랙|1|MNP
+SM-S948NK|블루|0|기변
+SM-A175NK|블랙|0|MNP
 SM-A175NK|블루|0|MNP
 SM-S931NK|네이비|0|MNP·기변
 SM-S931NK|블루|9|MNP·기변
