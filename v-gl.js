@@ -1,4 +1,4 @@
-(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"gl",name:"GL",car:"LG",memi:"글로리_LG",via:"구글 시트",asOf:"2026-11-27",note:"표에 없는 색상은 재고 없음. '여유'는 넉넉하다는 표시",raw:`
+(window.STOCK_VENDORS=window.STOCK_VENDORS||[]).push({id:"gl",name:"GL",car:"LG",memi:"글로리_LG",via:"구글 시트",asOf:"2026-11-28",note:"표에 없는 색상은 재고 없음. '여유'는 넉넉하다는 표시",raw:`
 #S26|256
 S942-256|블랙|1
 S942-256|블루|3
@@ -51,7 +51,7 @@ F741-256|민트|6
 #플립5|256
 F731-256|크림|1
 #워치9 40mm|
-L345|블랙|2
+L345|블랙|1
 L345|크림|5
 #워치9 울트라2|
 L715|블랙|2
@@ -79,7 +79,7 @@ UIPD-256|화이트|4
 #아이폰 Duo|512
 UIPD-512|화이트|3
 #아이폰17 PRO|256
-UIP17PR-256|실버|3
+UIP17PR-256|실버|2
 UIP17PR-256|오렌지|2
 UIP17PR-256|블루|2
 #아이폰17 PRO|512
